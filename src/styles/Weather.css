@@ -1,3 +1,47 @@
-/* .temp {
-    color: DodgerBlue;
-  }   */
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 30px;
+}
+
+#search-button {
+  border: 3px black solid;
+  border-left: 2px black solid;
+  border-top: 2px black solid;
+  box-shadow: 2px 2px 2px black;
+  margin-bottom: 15px;
+  padding-top: 3px;
+  min-height: 20px;
+  min-width: 60px;
+  font-size: small;
+  font-weight: 600;
+}
+
+#search-bar {
+  border: 2px solid black;
+  border-radius: 12px;
+  min-height: 25px;
+  max-width: 10%;
+  margin-right: 20px;
+  padding-left: 20px;
+  background-image: url('./images//searchIcon.png');
+  background-repeat: no-repeat;
+  background-position: 2% 50%;
+}
+
+#search-bar::placeholder {
+  font-size: small;
+  font-weight: 500;
+}
+
+#search-bar:focus, #search-button:focus {
+  outline: none;
+  box-shadow: 0 0 10px gray;
+}
+
+.outputContainer {
+  font-size: large;
+}
+
+#weather-description {
+  white-space: pre-line;
+}

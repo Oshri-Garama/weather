@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import './styles/index.css'
+import "./styles/weather.css";
 
 const apiWeatherKey = "a7e9b7cd83166d594a42858290bbc541";
 
@@ -8,8 +8,9 @@ class Weather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: props.city || "Tel Aviv",
+      city: props.city,
       data: {},
+      error: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -25,37 +26,52 @@ class Weather extends React.Component {
     const units = "metric";
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&units=${units}&appid=${apiWeatherKey}`;
 
-    axios.get(url).then((res) => {
-      if (res.status === 200) {
+    axios
+      .get(url)
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({
+            data: res.data,
+            error: null,
+          });
+        }
+      })
+      .catch(() => {
         this.setState({
-          data: res.data,
+          error: `'${this.state.city}' is not a valid city`,
         });
-      }
-    });
+      });
   }
 
   render() {
-    const { data } = this.state;
+    const { error, data } = this.state;
 
     return (
       <div>
-        <input id='searchBar' type="search" onChange={this.handleChange}></input>
-        <button id='searchButton' type="submit" onClick={this.handleSearch}>
+        <input
+          id="search-bar"
+          type="search"
+          onChange={this.handleChange}
+          placeholder="Tel Aviv"
+        ></input>
+        <button id="search-button" type="submit" onClick={this.handleSearch}>
           Search
         </button>
-        {data.main ? (
-          <div className='temp'>
-            {data.name}, {data.sys.country}
-            <br/>
-            <br/>
-            {data.main.temp}&deg;
-            <br/>
-            {data.weather[0].description.toUpperCase()}
-            <br/>
-            feels like {data.main.feels_like}&deg;
+        {!error && data.main ? (
+          <div className="output-container">
+            <div>
+              <span>
+                {data.name}, {data.sys.country}
+              </span>
+              <p id="weather-description">
+                {data.main.temp}&deg; {"\n"}
+                {data.weather[0].description.toUpperCase()} {"\n"}
+                feels like {data.main.feels_like}&deg;
+              </p>
+            </div>
           </div>
         ) : (
-          <div className='temp'>Loading...</div>
+          <div>{error}</div>
         )}
       </div>
     );
