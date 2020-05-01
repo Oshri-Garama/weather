@@ -8,7 +8,7 @@ class Weather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: props.city,
+      city: props.city || '',
       data: {},
       error: null,
     };
